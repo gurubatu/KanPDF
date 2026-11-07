@@ -1,0 +1,11 @@
+node_modules/
+.pages-functions-test/
+scan-export.csv
+*.log
+.DS_Store
+.wrangler/
+src-tauri/target/
+
+!books/README.md
+books/*
+!books/README.md

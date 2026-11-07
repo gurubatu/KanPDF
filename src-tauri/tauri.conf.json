@@ -1,0 +1,87 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "luanpdf",
+  "version": "2.8.8",
+  "identifier": "com.kanpdf.app",
+  "build": {
+    "frontendDist": "../web",
+    "devUrl": "http://localhost:8123/web"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "乱翻书",
+        "width": 1100,
+        "height": 800,
+        "minWidth": 640,
+        "minHeight": 480,
+        "center": true,
+        "resizable": true,
+        "fullscreen": false,
+        "dragDropEnabled": true
+      }
+    ],
+    "security": {
+      "csp": null,
+      "assetProtocol": {
+        "enable": true,
+        "scope": ["**"]
+      }
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "publisher": "Stone",
+    "copyright": "© 2026 Stone · for Jojo",
+    "category": "Productivity",
+    "shortDescription": "Read a PDF in peace",
+    "longDescription": "Casual Reading (luanpdf): a local PDF reader for immersive reading, portrait rotation, and curl page turns.",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "fileAssociations": [
+      {
+        "ext": ["pdf"],
+        "name": "PDF Document",
+        "description": "PDF 文档",
+        "mimeType": "application/pdf",
+        "role": "Viewer"
+      }
+    ],
+    "linux": {
+      "deb": {
+        "desktopTemplate": "linux/luanpdf.desktop.hbs"
+      },
+      "rpm": {
+        "desktopTemplate": "linux/luanpdf.desktop.hbs"
+      }
+    },
+    "windows": {
+      "nsis": {
+        "languages": [
+          "English",
+          "SimpChinese",
+          "TradChinese",
+          "Japanese",
+          "Korean",
+          "French",
+          "German",
+          "Spanish",
+          "PortugueseBR",
+          "Russian",
+          "Arabic"
+        ],
+        "installMode": "currentUser",
+        "template": "nsis/installer.nsi",
+        "installerHooks": "nsis/installer-hooks.nsh"
+      }
+    }
+  }
+}

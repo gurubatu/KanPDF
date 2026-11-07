@@ -1,0 +1,10 @@
+services:
+  kanpdf:
+    build: .
+    image: kanpdf:latest
+    container_name: kanpdf
+    restart: unless-stopped
+    ports:
+      - "8080:80"          # 局域网访问 http://<本机IP>:8080/
+    volumes:
+      - ./books:/usr/share/nginx/html/books:ro   # 把 PDF 放进 ./books

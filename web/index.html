@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>乱翻书</title>
+
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+  <div id="viewport">
+
+
+
+    <header id="topbar" class="hidden-doc">
+
+      <div class="topbar-left">
+
+        <span class="app-name" data-i18n="appName">乱翻书</span>
+
+        <span id="appVersion" class="app-version" hidden></span>
+
+        <span id="docTitle" class="doc-title"></span>
+
+      </div>
+
+      <div class="topbar-right">
+
+        <select id="langSelect" class="lang-select" data-i18n="langLabel" data-i18n-attr="aria-label"></select>
+
+        <button id="btnLangRequest" class="bar-btn" data-i18n="btnLangRequest" data-i18n-title="btnLangRequestTitle">语言诉求</button>
+
+        <button id="btnTurnStyle" class="bar-btn" data-i18n-title="btnTurnStyleTitle">翻页 · 平移</button>
+
+        <button id="btnSpread" class="bar-btn" data-i18n-title="btnSpreadTitle">单页</button>
+
+        <button id="btnRotate" class="bar-btn" data-i18n-title="btnRotateTitle">竖屏</button>
+
+        <button id="btnMonitor" class="bar-btn" type="button" hidden data-i18n-title="btnMonitorTitle">副屏</button>
+
+        <button id="btnBookmarks" class="bar-btn" data-i18n="btnBookmarks" data-i18n-title="btnBookmarksTitle" disabled>书签</button>
+
+        <button id="btnOutline" class="bar-btn" data-i18n="btnOutline" data-i18n-title="btnOutlineTitle" disabled>目录</button>
+
+        <button id="btnJump" class="bar-btn" data-i18n="btnJump" data-i18n-title="btnJumpTitle" disabled>跳转</button>
+
+        <button id="btnZoomReset" class="bar-btn" data-i18n-title="btnZoomResetTitle" disabled>缩放 100%</button>
+
+        <button id="btnSupport" class="bar-btn" type="button" data-i18n="btnSupport" data-i18n-title="btnSupportTitle">支持</button>
+
+        <button id="btnOpen" class="bar-btn primary" data-i18n="btnOpen" data-i18n-title="btnOpenTitle">打开</button>
+
+      </div>
+
+    </header>
+
+
+
+    <main id="stage" tabindex="-1">
+
+      <div id="pageHost"></div>
+
+    </main>
+
+
+
+    <div id="startScreen">
+
+      <div class="start-inner">
+
+        <h1 class="start-title" data-i18n="appName">乱翻书</h1>
+
+        <p class="start-sub" data-i18n="tagline">安静地读一本 PDF</p>
+
+        <button id="btnStartOpen" class="start-btn" data-i18n="btnStartOpen">打开 PDF</button>
+
+        <p class="start-hint" data-i18n="startHint">拖入文件 · 300MB 以内 · Ctrl+O · R 竖屏 · D 双页 · U/M/L 局部放大 · B 书签</p>
+
+        <button type="button" id="btnLangRequestStart" class="start-link-btn" data-i18n="btnLangRequest">语言诉求</button>
+
+        <button type="button" id="btnSupportStart" class="start-link-btn" data-i18n="btnSupport" data-i18n-title="btnSupportTitle">支持作者</button>
+
+        <div id="recentBox" class="closed">
+
+          <div class="recent-title" data-i18n="recentTitle">最近打开</div>
+
+          <div id="recentList"></div>
+
+        </div>
+
+        <!-- Author: Gao Hongyan · for Jojo -->
+        <p class="start-credit" data-i18n="startCredit">Stone · for Jojo</p>
+        <p class="support-note" data-i18n="supportNote">自愿打赏，软件永久免费</p>
+
+      </div>
+
+    </div>
+
+
+
+    <div id="pageIndicator" class="fade-out"></div>
+
+    <div id="shortcutHints" class="closed" aria-hidden="true">
+      <aside id="edgeHintLeft" class="edge-hint edge-hint-left">
+        <div class="edge-hint-title" data-i18n="hintPrevTitle">上一页</div>
+        <div class="edge-hint-body edge-hint-compact">
+          <div class="edge-hint-keys">
+            <div><kbd>←</kbd> <kbd>↑</kbd></div>
+            <div><kbd>PgUp</kbd></div>
+          </div>
+          <div class="hint-sub" data-i18n="hintClickLeft">或点左侧</div>
+        </div>
+        <div class="edge-hint-extra">
+          <div><kbd>F</kbd> <kbd>F11</kbd> <span data-i18n="hintRowFullscreen">全屏</span></div>
+          <div><kbd>Esc</kbd> <span data-i18n="hintEscFullscreen">退出全屏</span></div>
+          <div><kbd>Esc</kbd>×2 <span data-i18n="hintEscHome">回首页</span></div>
+          <div><kbd>B</kbd> <span data-i18n="hintRowBookmarkShort">书签</span></div>
+          <div><kbd>R</kbd> <span data-i18n="hintRowRotateShort">竖屏</span></div>
+          <div><kbd>空格</kbd> <span data-i18n="hintSpaceAll">全部键</span></div>
+        </div>
+      </aside>
+      <aside id="edgeHintRight" class="edge-hint edge-hint-right">
+        <div class="edge-hint-title" data-i18n="hintNextTitle">下一页</div>
+        <div class="edge-hint-body edge-hint-compact">
+          <div class="edge-hint-keys">
+            <div><kbd>→</kbd> <kbd>↓</kbd></div>
+            <div><kbd>PgDn</kbd></div>
+          </div>
+          <div class="hint-sub" data-i18n="hintClickRight">或点右侧</div>
+        </div>
+        <div class="edge-hint-extra">
+          <div><kbd>D</kbd> <span data-i18n="hintRowSpreadShort">单/双页</span></div>
+          <div><kbd>U</kbd> <span data-i18n="partTop">上放大</span></div>
+          <div><kbd>M</kbd> <span data-i18n="partMiddle">中放大</span></div>
+          <div><kbd>L</kbd> <span data-i18n="partBottom">下放大</span></div>
+        </div>
+      </aside>
+    </div>
+
+    <div id="hintOverlay" class="closed" aria-hidden="true">
+      <div class="hint-overlay-panel">
+        <div class="hint-overlay-title" data-i18n="hintOverlayTitle">快捷键</div>
+        <ul class="hint-overlay-list">
+          <li><span class="hint-keys"><kbd>←</kbd> <kbd>→</kbd></span><span data-i18n="hintRowTurn">翻页</span></li>
+          <li><span class="hint-keys"><kbd>B</kbd></span><span data-i18n="hintRowBookmark">书签收藏 / 取消</span></li>
+          <li><span class="hint-keys"><kbd>D</kbd></span><span data-i18n="hintRowSpread">单页 / 双页对开</span></li>
+          <li><span class="hint-keys"><kbd>R</kbd></span><span data-i18n="hintRowRotate">竖屏翻转</span></li>
+          <li><span class="hint-keys"><kbd>U</kbd> <kbd>M</kbd> <kbd>L</kbd></span><span data-i18n="hintRowZoom">局部放大（上 / 中 / 下）</span></li>
+          <li><span class="hint-keys"><kbd>Ctrl+G</kbd></span><span data-i18n="hintRowJump">跳转到页码</span></li>
+          <li><span class="hint-keys"><kbd>Ctrl+1</kbd> <kbd>Ctrl+2</kbd></span><span data-i18n="hintRowMonitor">主屏 / 副屏</span></li>
+          <li><span class="hint-keys"><kbd>F11</kbd> <kbd>F</kbd></span><span data-i18n="hintRowFullscreen">全屏</span></li>
+          <li><span class="hint-keys"><kbd>Esc</kbd></span><span data-i18n="hintRowEsc">退出全屏 / 再按回首页</span></li>
+        </ul>
+        <p class="hint-overlay-foot" data-i18n="hintOverlayFoot">空格键收起 · 移入屏幕左右边缘查看翻页键</p>
+      </div>
+    </div>
+
+    <aside id="outlinePanel" class="closed">
+
+      <div class="outline-header">
+
+        <span data-i18n="outlineHeader">目录</span>
+
+        <button id="btnOutlineClose" class="bar-btn" data-i18n="btnClose">关闭</button>
+
+      </div>
+
+      <div id="outlineList"></div>
+
+    </aside>
+
+
+
+    <aside id="bookmarkPanel" class="closed">
+
+      <div class="outline-header">
+
+        <span data-i18n="bookmarkHeader">书签</span>
+
+        <button id="btnBookmarkClose" class="bar-btn" data-i18n="btnClose">关闭</button>
+
+      </div>
+
+      <div id="bookmarkList"></div>
+
+      <div class="bookmark-hint" data-i18n-html="bookmarkHintHtml">阅读时按 <b>B</b> 收藏 / 取消当前页</div>
+
+    </aside>
+
+
+
+    <div id="jumpBox" class="closed">
+
+      <label for="jumpInput" data-i18n="jumpLabel">跳转到</label>
+
+      <input id="jumpInput" type="number" min="1" data-i18n="jumpPlaceholder" data-i18n-attr="placeholder">
+
+      <span id="jumpTotal"></span>
+
+    </div>
+
+
+
+    <div id="langRequestBox" class="closed">
+      <div class="lang-request-panel">
+        <h2 class="lang-request-title" data-i18n="langRequestTitle">请求其他语言</h2>
+        <p class="lang-request-desc" data-i18n="langRequestDesc">希望增加哪种语言？每一条诉求我们都会看。</p>
+        <input id="langRequestInput" type="text" data-i18n="langRequestPlaceholder" data-i18n-attr="placeholder">
+        <textarea id="langRequestNote" rows="2" data-i18n="langRequestNotePlaceholder" data-i18n-attr="placeholder"></textarea>
+        <div class="lang-request-actions">
+          <button type="button" id="btnLangRequestSubmit" class="start-btn lang-request-submit" data-i18n="langRequestSubmit">发送诉求</button>
+          <button type="button" id="btnLangRequestClose" class="bar-btn" data-i18n="btnClose">关闭</button>
+        </div>
+        <p class="lang-request-hint" data-i18n="langRequestHint">将打开邮件发送至 i18n@luanpdf.com，并复制诉求内容到剪贴板。</p>
+      </div>
+    </div>
+
+
+
+    <div id="toast" class="fade-out"></div>
+
+
+
+    <div id="dropMask" class="closed"><span data-i18n="dropHint">松开以打开 PDF</span></div>
+
+
+
+  </div>
+
+
+
+  <input type="file" id="fileInput" accept="application/pdf,.pdf" hidden>
+
+
+
+  <script type="module" src="app.js"></script>
+
+</body>
+
+</html>
+
+

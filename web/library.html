@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>乱翻书 · 书库</title>
+  <style>
+    body{font:16px/1.6 system-ui,sans-serif;max-width:720px;margin:0 auto;padding:24px 16px;background:#1b1b1f;color:#e8e8ea}
+    a{color:#8ab4ff;text-decoration:none} li{margin:.4em 0} small{color:#888}
+    .top{display:flex;justify-content:space-between;align-items:baseline}
+  </style>
+</head>
+<body>
+  <div class="top"><h1>乱翻书 · 书库</h1><a href="./">打开本地文件 →</a></div>
+  <ul id="list"><li>加载中…</li></ul>
+  <script>
+    (async () => {
+      const ul = document.getElementById("list");
+      try {
+        const items = await (await fetch("books/")).json();
+        const pdfs = items.filter(i => i.type === "file" && /\.pdf$/i.test(i.name))
+                          .sort((a, b) => a.name.localeCompare(b.name, "zh"));
+        ul.innerHTML = "";
+        if (!pdfs.length) ul.innerHTML = "<li>books/ 目录里还没有 PDF——请把你自己的 PDF 放进去（本项目不提供图书）。</li>";
+        for (const f of pdfs) {
+          const li = document.createElement("li"), a = document.createElement("a");
+          a.href = "./?file=" + encodeURIComponent("books/" + f.name);
+          a.textContent = f.name;
+          const s = document.createElement("small");
+          s.textContent = "  " + (f.size / 1048576).toFixed(1) + " MB";
+          li.append(a, s); ul.append(li);
+        }
+      } catch (e) {
+        ul.innerHTML = "<li>无法读取书库（仅 Docker/nginx 部署提供 /books/）。</li>";
+      }
+    })();
+  </script>
+</body>
+</html>

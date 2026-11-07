@@ -1,0 +1,24 @@
+{
+  "name": "kanpdf",
+  "version": "1.0.0",
+  "description": "KanPDF: immersive local PDF reader (web/Docker + Tauri desktop).",
+  "main": "index.js",
+  "scripts": {
+    "locales:zh": "node scripts/write-zh-locale.js",
+    "pdfjs:sync": "node scripts/sync-pdfjs-vendor.js",
+    "build:win": "node scripts/write-zh-locale.js && node scripts/sync-pdfjs-vendor.js && npx tauri build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tauri": "tauri",
+    "tauri:windows:build": "tauri-windows-bundle build"
+  },
+  "keywords": [],
+  "author": "Gao Hongyan",
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "pdfjs-dist": "^6.1.200"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.11.4",
+    "@choochmeque/tauri-windows-bundle": "^0.1.28"
+  }
+}
