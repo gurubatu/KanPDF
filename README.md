@@ -1,6 +1,6 @@
 # 乱翻书（KanPDF / luanpdf）
 
-本地 PDF 阅读器，追求「像读书」的沉浸感。提供**网页版（Docker / 局域网自托管）**和 **Tauri 桌面版**（Windows / Linux）。
+本地 PDF 阅读器，追求「像读书」的沉浸感。提供**网页版（Node 或 Docker，局域网自托管）**和 **Tauri 桌面版**（Windows / Linux）。
 
 技术栈：PDF.js（渲染）+ 原生 HTML/CSS/JS（界面）+ Tauri 2（桌面壳）。
 
@@ -12,22 +12,34 @@
 - **双页对开**：按 `D`，封面单独，其后成对并排。
 - 局部放大、书签、目录、翻页动画（平移 / 卷页）、记住每本书的阅读进度。
 
-## 局域网 / Docker 部署（网页版）
+## 局域网部署（网页版，两种方式任选）
 
-网页版是纯静态页面，无需后端。
+网页版是纯静态页面，无需数据库。先把你自己的 PDF 放进 `books/` 目录。
+
+### 方式一：Node.js（不用 Docker）
+
+需要 [Node.js](https://nodejs.org/) 18+，无需 `npm install`。
 
 ```bash
-git clone <本仓库>
-cd KanPDF
-# 把你自己的 PDF 放进 books/ 目录
+node scripts/serve.js      # 或 npm start；Windows 可双击 start.bat；Linux/macOS 用 ./start.sh
+```
+
+可用环境变量：`PORT`（默认 8080）、`HOST`（默认 0.0.0.0）、`BOOKS_DIR`（默认 ./books）。启动后会打印局域网地址。
+
+### 方式二：Docker
+
+```bash
 docker compose up -d --build
 ```
 
+### 使用
+
 - 局域网内任意设备访问 `http://<本机IP>:8080/library.html` 选书，或 `http://<本机IP>:8080/` 打开设备上的本地文件。
-- 不用 Docker：任意静态服务器托管 `web/` 目录即可（如 `python -m http.server 8123`，打开 `http://localhost:8123/web/`）。
-- `books/` 以只读方式挂载到容器；可用 `?file=books/xxx.pdf` 直接打开某本书。
+- 也可用任意静态服务器托管 `web/`（如 `python -m http.server 8123`），但那样没有 `books/` 书库列表。
+- 可用 `?file=books/xxx.pdf` 直接打开某本书。
 - 阅读进度、书签保存在**各浏览器自己的 localStorage**，不同设备之间不同步。
-- 服务本身**没有认证**，请仅在可信局域网使用；暴露到公网请自行加反向代理与认证。
+- 服务**没有认证**，请仅在可信局域网使用；暴露到公网请自行加反向代理与认证。
+- Windows 首次启动可能弹出防火墙提示，需允许专用网络访问，其他设备才能连上。
 
 ## 桌面版
 
@@ -62,7 +74,8 @@ npm run build:win        # Windows：产物在 src-tauri/target/release/bundle/n
 web/                阅读器本体（零构建）
 web/vendor/pdfjs/   PDF.js 构建 + CJK cmaps + 标准字体
 src-tauri/          Tauri 2 桌面壳
-books/              你的 PDF（Docker 挂载，不随仓库分发）
+books/              你的 PDF（不随仓库分发）
+scripts/serve.js    零依赖本地服务器
 samples/            测试用 PDF（PDF.js 官方样例 + 自生成）
 ```
 
@@ -73,5 +86,5 @@ samples/            测试用 PDF（PDF.js 官方样例 + 自生成）
 
 ## 许可证
 
-版权所有 © 2026 Gao Hongyan。以 [GNU AGPL-3.0-or-later](./LICENSE) 发布。
+版权所有 © 2026 Gao Hongyan · For Jojo。以 [GNU AGPL-3.0-or-later](./LICENSE) 发布。
 内置 PDF.js 为 Mozilla 的 Apache-2.0 项目，字体与解码器许可证见 `web/vendor/pdfjs/` 下各 LICENSE 文件。

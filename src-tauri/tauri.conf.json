@@ -34,8 +34,8 @@
   "bundle": {
     "active": true,
     "targets": ["nsis"],
-    "publisher": "Stone",
-    "copyright": "© 2026 Stone · for Jojo",
+    "publisher": "KanPDF",
+    "copyright": "For Jojo",
     "category": "Productivity",
     "shortDescription": "Read a PDF in peace",
     "longDescription": "Casual Reading (luanpdf): a local PDF reader for immersive reading, portrait rotation, and curl page turns.",

@@ -4,6 +4,7 @@
   "description": "KanPDF: immersive local PDF reader (web/Docker + Tauri desktop).",
   "main": "index.js",
   "scripts": {
+    "start": "node scripts/serve.js",
     "locales:zh": "node scripts/write-zh-locale.js",
     "pdfjs:sync": "node scripts/sync-pdfjs-vendor.js",
     "build:win": "node scripts/write-zh-locale.js && node scripts/sync-pdfjs-vendor.js && npx tauri build",
